@@ -1,0 +1,167 @@
+ ##django interview questions##
+                                ###AUTHENTION AND PERMISSION###
+1)authentications and authorisation and type of authentications
+type of authentications: 1) basic uth 2)sessionn auth 3)token auth 4)remote user auth 5)custom auth
+            (note: basica auth are only use testing purpose not used in produtions side)
+   #Authrisations and type: 1) Allow any: 2)is Authenticated: only authenticated user are are permission are to use api 3)is admin user:if user is is staff true atr time only permision to allow api
+  4)isAuthenticated Read only ) 5) django model Permission 6)django object permission 
+#applay authentication #
+views.py
+from.model import (model name)
+from .serializers import (serializers name)
+from rest_framework import vieweset
+from rest_framework.authentications import Basic Authentications 
+from rest_framwork.permission import isauthenticated
+
+class studentinfo(viewest.modelvieweset)
+query=student.object.all()
+serializers_class=studentserializers
+authentiction_class=[basic authentication]
+permission class= [isAuthenticated]
+
+                                            #TOKEN AUTHENTICATIONS###
+
+#jwt(simple jwt) Authentications
+
+pip install djangorestframwokr simplejwt
+
+url.py
+from restframwork_simplejwt.view import Tokenobtainpairew
+from restframwork_simplejwt.view import Refreshview
+
+url_pattern=[ path("gettoken/",Tokenobtainpairview.as_view(),
+              path("gettoken/",Refreshview.as_view() ]
+
+
+view.py
+from.model import (model name)
+from .serializers import (serializers name)
+from rest_framework import vieweset
+from rest_framework.authentications import Basic Authentications 
+from rest_framework_simplejwt.authentications impor jWTAuthetications
+
+
+
+class studentinfo(viewest.modelvieweset)
+query=student.object.all()
+serializers_class=studentserializers
+authentiction_class=[basic jWTAuthetications]
+permission class= [isAuthenticated]
+
+
+
+ 
+
+
+ 
+1)gettoken in=[http POST http://127.0.0.1:8000/gettoken/ username='nikhil' password='priti']  #token created to get acces token and refreh token
+       by default acces token validaty is 5 min and afrer by uing refresh token to one new create acces token
+2)token refresh by using following processed 
+            [http POST http://127.0.0.1:8000/refreshtoken/ refresh=" acces token cpoy"]
+
+3)token are used to acces u r api by following processes:
+http POST http://127.0.0.1.8000/studentapi/"Authorisatio:Bearer (token are copy)"
+http -f post http://127.0.0.1:8000/studentapi/name='nikhil' roll_no=101 'Authorisation:Barer (tokn copy)" [this is used to post method]
+
+
+                                            ###MIDDLEWAR IN DJANGO###
+#create custome middlewar
+1)setting.py-
+  middlewar[ app.middlewar.my_middlewar]
+
+2)middlewar.py
+
+def My_middlewar(get_response):
+   print('1st time inatilasation)
+def funct(request):
+   response=get_response(request):
+       print('after view")  
+       return response
+   return funct
+
+
+3)views.py
+from django.shortcut import request,Httpresponse
+
+def home(request):  
+   print("iam the view")
+return Httpresponse("jfbsd")
+
+
+4)url.py
+from app import view
+urlPattern=["",views.home]
+             
+                                               ####pagination #####
+it is split the data from serval page with previous/next link
+1) count=total number of  objects in all page
+2)num_page=total number of pages
+3)PageNumberPaganation
+
+setting.py=(globally appealy)
+REST_FRAMEWORK={
+                 "DEFAULT_PAGINATION_CLASS='rest_framework.pagination.pageNumberPagination',PAGE_SIZE=5}
+   
+
+1)  model.py
+from dajngo.db import models
+class student(models.Model):
+   name=models.charfield(max_length=50)
+   roll_no=models.IntegerField()
+
+2)admin.py
+from django.contrib import admin
+from.models import student
+admin.site.register(student)
+
+3)serillizers.py
+from rest_framewor import serializers
+from.models import student
+class  studentserializers(serializers.modelSerializer):
+   class Meta:
+         model=Student   
+         field=__all__
+
+4)  views.py
+from.pagination import mypagination
+from django.shortcuts import render
+from.serailizers import studentserializers
+from .models import student
+from rest_framework.generic import ListApiview
+
+
+class Student(Listapivew):
+   queryerset=student.object.all()
+   serializer_class=stdentserialzers
+   pagination_class=pagination
+
+        
+5)url.py
+from django.contrib import admin
+# from django.urls import path
+from nikhil import views
+
+urlpatterns = [ path('admin/', admin.site.urls),
+                path('studenapi/',views.Student.as_view())
+
+#paginaton defined in per view not globally use
+pagination.py
+from rest_framwerk.pagination import PageNumberPagination
+ class mypagination(pagenumberpagination):
+      page_size=5
+      max_page_size=7
+      page_query_paam='p'
+
+
+
+
+
+
+
+
+
+
+$$$$DEVELOPMENT OF PROJECT or application@@@@@@@ IMP
+#STATIC FILE IN DJANGO UPLOAD$$
+##payment gatway##
+
